@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON BREACH // Cyberpunk Escape-Room</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Matrix Particle Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- CRT Scanline & Glitch Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- Main Game Container -->
+    <div id="game-container">
+        
+        <!-- Header / Status HUD Bar -->
+        <header id="hud-bar" class="cyber-panel">
+            <div class="hud-brand">
+                <div class="glitch-title" data-text="NEON BREACH">NEON BREACH</div>
+                <div class="hud-subtitle">CYBERSPACE INFILTRATION TERMINAL</div>
+            </div>
+
+            <div class="hud-metrics">
+                <div class="metric-box">
+                    <span class="metric-label">RUNNER</span>
+                    <span id="hud-runner" class="metric-value text-cyan">NETRUNNER_X</span>
+                </div>
+
+                <div class="metric-box">
+                    <span class="metric-label">INTEGRITY</span>
+                    <div class="progress-bar-container">
+                        <div id="integrity-bar" class="progress-bar bg-green" style="width: 100%;"></div>
+                    </div>
+                    <span id="hud-integrity" class="metric-sub text-green">100 HP</span>
+                </div>
+
+                <div class="metric-box">
+                    <span class="metric-label">SYSTEM TRACE</span>
+                    <div class="progress-bar-container">
+                        <div id="trace-bar" class="progress-bar bg-red" style="width: 0%;"></div>
+                    </div>
+                    <span id="hud-trace" class="metric-sub text-red">0%</span>
+                </div>
+
+                <div class="metric-box">
+                    <span class="metric-label">NODE TIMER</span>
+                    <span id="hud-timer" class="metric-value text-yellow">60.0s</span>
+                </div>
+
+                <div class="metric-box">
+                    <span class="metric-label">OVERRIDE SCORE</span>
+                    <span id="hud-score" class="metric-value text-magenta">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Security Node Map & Viewport Grid -->
+        <main id="main-viewport">
+            
+            <!-- Security Layers Node Progress Bar -->
+            <nav id="node-map" class="cyber-panel">
+                <div class="node-map-title">SECURITY LAYERS:</div>
+                <div class="nodes-container">
+                    <div class="node-item active" id="node-step-0">
+                        <div class="node-icon">01</div>
+                        <div class="node-label">LOGIC ICE</div>
+                    </div>
+                    <div class="node-line"></div>
+
+                    <div class="node-item" id="node-step-1">
+                        <div class="node-icon">02</div>
+                        <div class="node-label">CIPHER</div>
+                    </div>
+                    <div class="node-line"></div>
+
+                    <div class="node-item" id="node-step-2">
+                        <div class="node-icon">03</div>
+                        <div class="node-label">ANOMALY</div>
+                    </div>
+                    <div class="node-line"></div>
+
+                    <div class="node-item" id="node-step-3">
+                        <div class="node-icon">04</div>
+                        <div class="node-label">SEQUENCE</div>
+                    </div>
+                    <div class="node-line"></div>
+
+                    <div class="node-item" id="node-step-4">
+                        <div class="node-icon">05</div>
+                        <div class="node-label">KEYPAD</div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Active Puzzle Stage Viewport -->
+            <section id="puzzle-stage" class="cyber-panel">
+                <div id="stage-header">
+                    <h2 id="puzzle-title" class="text-cyan">NODE 01: LOGIC GATE CIRCUIT OVERRIDE</h2>
+                    <p id="puzzle-sub" class="text-dim">Configure input signal switches to produce a HIGH (1) output signal.</p>
+                </div>
+
+                <!-- Dynamic Visual Puzzle Container -->
+                <div id="puzzle-interactive-area">
+                    <!-- Injected dynamically by JS based on active node type -->
+                </div>
+
+                <!-- Input Controls & Action Buttons -->
+                <div id="puzzle-controls-bar">
+                    <div class="action-buttons">
+                        <button id="btn-submit" class="cyber-btn btn-primary">SUBMIT PAYLOAD</button>
+                        <button id="btn-hint" class="cyber-btn btn-warning">DIAGNOSTIC HINT (-150 PTS)</button>
+                        <button id="btn-audio" class="cyber-btn btn-secondary">AUDIO: ON</button>
+                        <button id="btn-abort" class="cyber-btn btn-danger">SEVER LINK</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer / Notification Feed -->
+        <footer id="terminal-feed" class="cyber-panel">
+            <div class="feed-header">> SYSTEM LOG OUTPUT:</div>
+            <div id="feed-messages">
+                <div class="log-line text-cyan">[SYSTEM] Neural interface connected to Arasaka ICE Perimeter Gateway.</div>
+                <div class="log-line text-yellow">[NOTICE] Complete security layer overrides before trace level reaches 100%.</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modals (Start Screen, Victory, Game Over, Leaderboard) -->
+    <div id="modal-overlay" class="modal-backdrop">
+        
+        <!-- Start Game Screen -->
+        <div id="start-modal" class="modal-card cyber-panel">
+            <h1 class="glitch-title" data-text="NEON BREACH">NEON BREACH</h1>
+            <p class="modal-desc text-cyan">SYSTEM INFILTRATION SIMULATOR v2.5</p>
+
+            <div class="form-group">
+                <label>NETRUNNER CALLSIGN:</label>
+                <input type="text" id="input-handle" value="NEO_RUNNER" maxlength="16" class="cyber-input">
+            </div>
+
+            <div class="form-group">
+                <label>SECURITY MATRIX SEVERITY:</label>
+                <select id="select-difficulty" class="cyber-input">
+                    <option value="NOVICE">NOVICE (4 Layers | 90s Timer | Low Trace)</option>
+                    <option value="CYBERPUNK" selected>CYBERPUNK (5 Layers | 60s Timer | Standard)</option>
+                    <option value="BLACK_ICE">BLACK-ICE (5 Layers | 45s Timer | Hardcore)</option>
+                </select>
+            </div>
+
+            <button id="btn-start-game" class="cyber-btn btn-primary btn-large">INITIATE INFILTRATION</button>
+            <button id="btn-show-scores" class="cyber-btn btn-secondary btn-large">HALL OF FAME RECORDS</button>
+        </div>
+
+        <!-- Leaderboard Modal -->
+        <div id="scores-modal" class="modal-card cyber-panel hidden">
+            <h2 class="text-magenta">BREACH RECORDS // HALL OF FAME</h2>
+            <div id="scores-table-container">
+                <table class="cyber-table">
+                    <thead>
+                        <tr>
+                            <th>RANK</th>
+                            <th>CALLSIGN</th>
+                            <th>SCORE</th>
+                            <th>LAYERS</th>
+                            <th>SEVERITY</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scores-tbody">
+                        <!-- Injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <button id="btn-close-scores" class="cyber-btn btn-secondary">BACK TO TERMINAL</button>
+        </div>
+
+        <!-- Victory Modal -->
+        <div id="victory-modal" class="modal-card cyber-panel hidden">
+            <h1 class="text-green glitch-title" data-text="BREACH SUCCESSFUL">BREACH SUCCESSFUL</h1>
+            <p class="modal-desc text-cyan">ALL SECURITY NODES OVERRIDDEN // SYSTEM PWNED</p>
+            <div class="result-stats">
+                <div>FINAL OVERRIDE SCORE: <span id="vic-score" class="text-yellow">0</span></div>
+                <div>TIME ELAPSED: <span id="vic-time" class="text-magenta">0s</span></div>
+            </div>
+            <button id="btn-vic-restart" class="cyber-btn btn-primary btn-large">PLAY AGAIN</button>
+        </div>
+
+        <!-- Defeat Modal -->
+        <div id="defeat-modal" class="modal-card cyber-panel hidden">
+            <h1 class="text-red glitch-title" data-text="LINK FLATLINED">LINK FLATLINED</h1>
+            <p class="modal-desc text-red">TRACE LEVEL REACHED 100% // BLACK-ICE DETECTED YOUR DECK</p>
+            <div class="result-stats">
+                <div>NODES OVERRIDDEN: <span id="def-nodes" class="text-yellow">0</span></div>
+                <div>ACCUMULATED SCORE: <span id="def-score" class="text-cyan">0</span></div>
+            </div>
+            <button id="btn-def-restart" class="cyber-btn btn-primary btn-large">RETRY INFILTRATION</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
