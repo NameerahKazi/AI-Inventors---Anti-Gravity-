@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lunar Explorer - A museum-grade sci-fi interactive Mission Control exhibit exploring lunar science, historical missions, and future expeditions.">
+  <title>Lunar Explorer // Deep Space Mission Control</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dynamic Starfield Canvas Background -->
+  <canvas id="star-canvas"></canvas>
+  <div class="cosmic-nebula"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Animated Shooting Stars -->
+  <div class="shooting-star shooting-star-1"></div>
+  <div class="shooting-star shooting-star-2"></div>
+  <div class="shooting-star shooting-star-3"></div>
+
+  <!-- Confetti Canvas for Perfect Quiz Score -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- =========================================================================
+       FIXED COMMAND NAVIGATION
+       ========================================================================= -->
+  <header class="mission-nav">
+    <div class="container nav-content">
+      <a href="#hero" class="brand-logo" id="nav-brand-logo">
+        <div class="moon-pulse-container">
+          <div class="moon-orb-icon"></div>
+          <div class="moon-pulse-ring"></div>
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-title">Lunar Explorer</span>
+          <span class="brand-sub">Mission Control // STS-99</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#hero" class="nav-link active" id="nav-link-hero"><span class="nav-num">01</span> Telemetry</a></li>
+          <li><a href="#stats" class="nav-link" id="nav-link-stats"><span class="nav-num">02</span> Data Stream</a></li>
+          <li><a href="#timeline" class="nav-link" id="nav-link-timeline"><span class="nav-num">03</span> Chronology</a></li>
+          <li><a href="#archive" class="nav-link" id="nav-link-archive"><span class="nav-num">04</span> 3D Archive</a></li>
+          <li><a href="#quiz" class="nav-link" id="nav-link-quiz"><span class="nav-num">05</span> Academy Quiz</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-controls">
+        <div class="mission-clock" id="mission-clock">
+          <span class="clock-dot"></span>
+          <span id="clock-display">UTC 00:00:00 // MET 56:11:09</span>
+        </div>
+        <button class="audio-toggle-btn" id="audio-toggle-btn" title="Toggle UI Sound Effects" aria-label="Toggle UI Sound">
+          <span id="audio-icon">🔊</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- L.U.N.A SHOWCASE BADGE (FIXED TOP-RIGHT HERO HUD) -->
+  <aside class="luna-showcase-badge" id="luna-showcase-badge">
+    <div class="luna-badge-trigger" id="luna-badge-trigger" tabindex="0" role="button" aria-expanded="false" aria-label="Open L.U.N.A Specifications">
+      <div class="luna-badge-pulse"></div>
+      <span class="luna-badge-label">L.U.N.A SHOWCASE</span>
+      <span class="luna-badge-status">v4.8 ONLINE</span>
+    </div>
+    <div class="luna-specs-panel">
+      <div class="specs-header">
+        <span class="specs-title">SYS://NEURAL-LUNAR-CORE</span>
+        <span class="specs-ver">BUILD 2026.9</span>
+      </div>
+      <div class="specs-grid">
+        <div class="spec-item">
+          <div class="spec-key">Speech Engine</div>
+          <div class="spec-val">WebSpeech TTS (1.1x)</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-key">Knowledge Depth</div>
+          <div class="spec-val">60+ Lunar Nodes</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-key">Latency</div>
+          <div class="spec-val">&lt; 14ms (Local)</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-key">Network Status</div>
+          <div class="spec-val" style="color: var(--teal)">100% OFFLINE</div>
+        </div>
+      </div>
+      <p class="specs-desc">
+        Equipped with natural keyword parsing and conversational neural responses covering 1959–2026+ Apollo, Artemis, CNSA, & ISRO lunar endeavors.
+      </p>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       HERO MISSION CONTROL DECK (TWO-COLUMN)
+       ========================================================================= -->
+  <main>
+    <section class="hero-section" id="hero">
+      <div class="container hero-grid">
+        
+        <!-- Left Hero Column -->
+        <div class="hero-content">
+          <div class="hud-tag">
+            <span class="hud-indicator-pulse"></span>
+            <span>FLIGHT DIRECTIVE // LUNAR ARCHIVE TERMINAL</span>
+          </div>
+
+          <h1 class="hero-title">
+            Humanity's Journey
+            <span class="hologram-text">To The Moon</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Welcome to Lunar Explorer, an interactive deep-space Mission Control exhibit. 
+            Traverse over six decades of lunar triumphs—from the early impact probes to Apollo's historic footprints, 
+            Chandrayaan-3's southern pole touch, and the dawn of Artemis deep-space colonization.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#timeline" class="btn-primary" id="hero-explore-cta">
+              <span>Start Exploring</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <button class="btn-secondary" id="hero-luna-cta">
+              <span>Talk with L.U.N.A</span>
+              <span style="color: var(--teal)">🎙️</span>
+            </button>
+          </div>
+
+          <div class="hero-quick-meta">
+            <div class="quick-meta-item">
+              <span class="quick-meta-label">Orbital Distance</span>
+              <span class="quick-meta-value">384,400 KM</span>
+            </div>
+            <div class="quick-meta-item">
+              <span class="quick-meta-label">Mean Orbital Vel</span>
+              <span class="quick-meta-value">1.022 KM/S</span>
+            </div>
+            <div class="quick-meta-item">
+              <span class="quick-meta-label">Orbital Plane Tilt</span>
+              <span class="quick-meta-value">5.145°</span>
+            </div>
+            <div class="quick-meta-item">
+              <span class="quick-meta-label">Tidal Locking</span>
+              <span class="quick-meta-value" style="color: var(--teal)">SYNCHRONOUS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Column: 650px 3D Earth-Moon System -->
+        <div class="hero-stage-wrapper">
+          <div class="orbital-viewport" id="orbital-viewport">
+            
+            <!-- HUD Alignment Rings -->
+            <div class="hud-target-ring hud-ring-outer"></div>
+            <div class="hud-target-ring hud-ring-mid"></div>
+
+            <!-- Tilted Orbital Plane with Trajectory Ring -->
+            <div class="orbital-plane" id="orbital-plane">
+              <div class="orbital-track-line"></div>
+              
+              <!-- Orbiting Moon Pivot -->
+              <div class="moon-orbit-pivot" id="moon-orbit-pivot">
+                <div class="moon-sphere" id="interactive-moon" title="The Moon - Click for telemetry" tabindex="0"></div>
+              </div>
+            </div>
+
+            <!-- Earth Center Sphere (Using local earth.jpg) -->
+            <div class="earth-sphere-container" id="earth-container" title="Earth - Primary Focal Center">
+              <div class="earth-sphere-texture"></div>
+              <div class="earth-atmosphere-glow"></div>
+            </div>
+
+            <!-- Interactive Orbital Simulation HUD Controls -->
+            <div class="sim-controls-panel">
+              <button class="sim-btn" id="sim-pause-toggle">
+                <span id="sim-pause-icon">⏸️</span>
+                <span id="sim-pause-text">PAUSE</span>
+              </button>
+              <button class="sim-btn" id="sim-speed-toggle">
+                <span>SPEED:</span>
+                <strong id="sim-speed-val" style="color: var(--gold)">1X</strong>
+              </button>
+              <button class="sim-btn" id="sim-reset-toggle">
+                <span>RESET</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         MISSION STATS COUNTERS
+         ========================================================================= -->
+    <section class="stats-section" id="stats">
+      <div class="container">
+        <div class="stats-grid">
+          
+          <div class="stat-card">
+            <span class="stat-icon-wrap" style="color: var(--blue)">🛰️</span>
+            <div class="stat-value-neon">
+              <span class="counter-num" data-target="384400">0</span>
+              <span class="stat-unit">KM</span>
+            </div>
+            <div class="stat-label">Average Distance</div>
+            <div class="stat-subtext">Roughly 30 Earth diameters between centers</div>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-icon-wrap" style="color: var(--gold)">⚖️</span>
+            <div class="stat-value-neon">
+              <span class="counter-num" data-target="1.62" data-decimal="2">0.00</span>
+              <span class="stat-unit">M/S²</span>
+            </div>
+            <div class="stat-label">Surface Gravity</div>
+            <div class="stat-subtext">~16.6% of Earth gravity (1/6th)</div>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-icon-wrap" style="color: var(--teal)">👨‍🚀</span>
+            <div class="stat-value-neon">
+              <span class="counter-num" data-target="12">0</span>
+              <span class="stat-unit">CREW</span>
+            </div>
+            <div class="stat-label">Moonwalkers</div>
+            <div class="stat-subtext">Apollo 11 through Apollo 17 astronauts</div>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-icon-wrap" style="color: var(--lilac)">🚀</span>
+            <div class="stat-value-neon">
+              <span class="counter-num" data-target="142">0</span>
+              <span class="stat-unit">+</span>
+            </div>
+            <div class="stat-label">Total Missions</div>
+            <div class="stat-subtext">Orbiters, landers, rovers, and crewed flights</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTINUOUS SCROLLING MARQUEE TICKER STRIP -->
+    <div class="ticker-strip-wrapper" aria-label="Mission Event Ticker">
+      <div class="ticker-track" id="ticker-track">
+        <!-- Content duplicated via JS for seamless infinite loop -->
+        <div class="ticker-item"><span class="ticker-badge">1959</span> LUNA 2 IMPACTS SURFACE — FIRST HUMAN OBJECT ON THE MOON <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">1969</span> APOLLO 11 TOUCHDOWN — "THE EAGLE HAS LANDED" AT SEA OF TRANQUILITY <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">1970</span> LUNOKHOD 1 BECOMES FIRST WHEELED PLANETARY ROVER <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">1972</span> APOLLO 17 DEPLOYS FINAL HUMAN SURFACE EXPERIMENTS <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">2008</span> CHANDRAYAAN-1 M3 PAYLOAD CONFIRMS WATER MOLECULES <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">2019</span> CHANG'E 4 HISTORIC FIRST TOUCHDOWN ON MOON'S FAR SIDE <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">2020</span> CHANG'E 5 RETURNS 1.73 KG OF FRESH LUNAR BASALT SAMPLES <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">2023</span> CHANDRAYAAN-3 TOUCHES DOWN AT 69° SOUTH POLE HIGHLANDS <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">2024</span> SLIM LANDS WITH SUB-100M PINPOINT PRECISION <span class="ticker-dot">✦</span></div>
+        <div class="ticker-item"><span class="ticker-badge">2026+</span> ARTEMIS EXPEDITIONS PREPARE PERMANENT LUNAR BASE CAMP & GATEWAY <span class="ticker-dot">✦</span></div>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         INTERACTIVE MISSION TIMELINE (VERTICAL DATA STREAM)
+         ========================================================================= -->
+    <section class="timeline-section" id="timeline">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-tag">HISTORICAL DATASTREAM</span>
+          <h2 class="section-title">Six Decades of <span>Lunar Exploration</span></h2>
+          <p class="section-desc">
+            Follow the chronological telemetry from early robotic space race probes to crewed Apollo triumphs, 
+            pioneering Asian robotic expeditions, and the modern international return to the lunar South Pole.
+          </p>
+        </div>
+
+        <div class="timeline-stream" id="timeline-stream">
+          
+          <!-- Node 1: 1959 Luna 2 -->
+          <div class="timeline-node left">
+            <div class="node-marker"></div>
+            <div class="node-card">
+              <div class="node-top-meta">
+                <span class="node-year">1959</span>
+                <span class="agency-badge agency-ussr">USSR / OKB-1</span>
+              </div>
+              <h3 class="node-title">Luna 2 Impact</h3>
+              <p class="node-desc">
+                The first artificial human-made spacecraft to reach the surface of another celestial body, 
+                impacting east of Mare Serenitatis and confirming the Moon has no significant dipole magnetic field.
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Impact Velocity: 3.3 km/s</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Discovered solar wind flux between Earth & Moon</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Carried Soviet pennants and scintillation counters</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 2: 1966 Surveyor 1 -->
+          <div class="timeline-node right">
+            <div class="node-marker"></div>
+            <div class="node-card">
+              <div class="node-top-meta">
+                <span class="agency-badge agency-nasa">NASA / JPL</span>
+                <span class="node-year">1966</span>
+              </div>
+              <h3 class="node-title">Surveyor 1 Soft Landing</h3>
+              <p class="node-desc">
+                America's first true controlled soft touchdown on lunar soil inside the Ocean of Storms. 
+                Disproved the fear that the lunar surface was swallowed by deep, loose dust quagmires.
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Transmitted 11,200 high-res television photos</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Radar altimeter guidance touchdown at 3 m/s</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Proved lunar soil could support heavy Apollo lander pads</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 3: 1969 Apollo 11 -->
+          <div class="timeline-node left">
+            <div class="node-marker"></div>
+            <div class="node-card">
+              <div class="node-top-meta">
+                <span class="node-year">1969</span>
+                <span class="agency-badge agency-nasa">NASA</span>
+              </div>
+              <h3 class="node-title">Apollo 11: The First Footsteps</h3>
+              <p class="node-desc">
+                Neil Armstrong and Buzz Aldrin pilot the Lunar Module "Eagle" down to the Sea of Tranquility. 
+                Armstrong proclaims: "That's one small step for [a] man, one giant leap for mankind."
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> 21.5 hours on lunar surface; 2h 31m EVA</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Collected 21.55 kg of pristine lunar rocks & soil</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Deployed Early Apollo Scientific Experiment Package (EASEP)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 4: 1970 Lunokhod 1 -->
+          <div class="timeline-node right">
+            <div class="node-marker"></div>
+            <div class="node-card">
+              <div class="node-top-meta">
+                <span class="agency-badge agency-ussr">USSR / Lavochkin</span>
+                <span class="node-year">1970</span>
+              </div>
+              <h3 class="node-title">Lunokhod 1: First Planetary Rover</h3>
+              <p class="node-desc">
+                The world's first remotely driven wheeled robotic rover on an extraterrestrial surface. 
+                Landed by Luna 17 in Mare Imbrium and operated for 322 Earth days under remote Soviet piloting.
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Traversed 10,540 meters across craters and ridges</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Returned 20,000 television frames & 206 panoramas</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> French laser retroreflector used for millimeter Earth-Moon ranging</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 5: 1972 Apollo 17 -->
+          <div class="timeline-node left">
+            <div class="node-marker"></div>
+            <div class="node-card">
+              <div class="node-top-meta">
+                <span class="node-year">1972</span>
+                <span class="agency-badge agency-nasa">NASA</span>
+              </div>
+              <h3 class="node-title">Apollo 17: Pinnacle of Apollo</h3>
+              <p class="node-desc">
+                Gene Cernan and scientist-geologist Harrison Schmitt spend 75 hours in Taurus-Littrow valley. 
+                They cover 35.7 km in the Lunar Roving Vehicle (LRV) and discover famous orange volcanic glass beads.
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Returned 110.5 kg of geological samples (Apollo record)</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Total EVA duration: 22 hours, 4 minutes</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Final crewed lunar expedition of the 20th century</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 6: 2008 Chandrayaan-1 -->
+          <div class="timeline-node right">
+            <div class="node-marker"></div>
+            <div class="node-card">
+              <div class="node-top-meta">
+                <span class="agency-badge agency-isro">ISRO</span>
+                <span class="node-year">2008</span>
+              </div>
+              <h3 class="node-title">Chandrayaan-1: Water Discovery</h3>
+              <p class="node-desc">
+                India's maiden deep space lunar orbiter revolutionized lunar science. 
+                Data from its Moon Mineralogy Mapper (M3) and Moon Impact Probe (MIP) definitively confirmed widespread water (H₂O) and hydroxyl (OH) molecules.
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Overturned the 40-year paradigm of a bone-dry Moon</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> 3D topographic mapping of polar permanently shadowed craters</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Carried collaborative instruments from NASA, ESA, and Bulgaria</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 7: 2019 Chang'e 4 -->
+          <div class="timeline-node left">
+            <div class="node-marker"></div>
+            <div class="node-card">
+              <div class="node-top-meta">
+                <span class="node-year">2019</span>
+                <span class="agency-badge agency-cnsa">CNSA</span>
+              </div>
+              <h3 class="node-title">Chang'e 4: The Far Side Frontier</h3>
+              <p class="node-desc">
+                Achieved the historic first-ever soft landing on the Moon's far side inside the ancient Von Kármán crater. 
+                Relayed telemetry via the Queqiao halo orbit relay satellite positioned at the Earth-Moon L2 point.
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Deployed the Yutu-2 rover across South Pole-Aitken basin</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Conducted radio astronomy free from Earth electromagnetic noise</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Germinated the first plant seed (cotton sprout) on the Moon</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 8: 2023 Chandrayaan-3 -->
+          <div class="timeline-node right">
+            <div class="node-marker"></div>
+            <div class="node-card">
+              <div class="node-top-meta">
+                <span class="agency-badge agency-isro">ISRO</span>
+                <span class="node-year">2023</span>
+              </div>
+              <h3 class="node-title">Chandrayaan-3: Polar Touchdown</h3>
+              <p class="node-desc">
+                India became the first nation to achieve a soft touchdown near the unexplored Lunar South Pole (69.37° S). 
+                The Vikram lander and Pragyan rover conducted direct in-situ thermal and chemical measurements of polar regolith.
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> ChaSTE probe revealed dramatic 60°C temperature gradient in top 10cm</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> LIBS spectrometer unambiguously detected Sulfur (S) on surface</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Executed a successful hop experiment validating ascent engines</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Node 9: 2026+ Artemis Program -->
+          <div class="timeline-node left">
+            <div class="node-marker"></div>
+            <div class="node-card" style="border-color: rgba(78, 255, 154, 0.4);">
+              <div class="node-top-meta">
+                <span class="node-year">2026+</span>
+                <span class="agency-badge agency-nasa">NASA / ESA / JAXA / CSA</span>
+              </div>
+              <h3 class="node-title">Artemis: Permanent Lunar Presence</h3>
+              <p class="node-desc">
+                The international coalition to return humans—including the first woman and person of color—to the lunar surface. 
+                Establishing the Lunar Gateway orbital station and sustainable Artemis Base Camp at the South Pole.
+              </p>
+              <ul class="node-highlights">
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Space Launch System (SLS) & Orion crew vehicle</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> Starship Human Landing System (HLS) surface transport</li>
+                <li class="highlight-item"><span class="highlight-bullet">▸</span> In-situ resource utilization (ISRU) to extract water ice & oxygen</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         3D MISSION ARCHIVE (INTERACTIVE TILT CARDS)
+         ========================================================================= -->
+    <section class="archive-section" id="archive">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-tag">DEEP SPACE REPOSITORY</span>
+          <h2 class="section-title">3D Mission <span>Archive</span></h2>
+          <p class="section-desc">
+            Move your cursor across each telemetry card to inspect dynamic perspective tilt and specular reflections. 
+            Dive into the critical engineering specifications behind humanity's flagship lunar machines.
+          </p>
+        </div>
+
+        <div class="cards-grid-3d">
+
+          <!-- Card 1: Artemis Program (Using local artemis.jpg) -->
+          <div class="mission-card-3d-wrapper">
+            <div class="mission-card-3d" data-card-id="artemis">
+              <div class="card-glare"></div>
+              <div class="mission-card-img-wrap">
+                <img src="artemis.jpg" alt="NASA Artemis Spacecraft in Lunar Orbit" class="mission-card-img" loading="lazy">
+                <div class="card-img-gradient-overlay"></div>
+                <div class="card-status-badge">ACTIVE EXPEDITION</div>
+              </div>
+              <div class="card-content">
+                <div class="card-header-meta">
+                  <span class="card-meta-agency">NASA / MULTI-NATIONAL</span>
+                  <span class="card-meta-date">2022–ONWARD</span>
+                </div>
+                <h3 class="card-title">Artemis Program</h3>
+                <p class="card-desc">
+                  Humanity's return to deep space. Artemis establishes sustainable lunar infrastructure, deep polar ice mining, and the orbiting Gateway platform as a stepping stone to Mars.
+                </p>
+                <div class="card-specs-table">
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Rocket</span>
+                    <span class="card-spec-v">SLS Block 1 / 1B</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Lander</span>
+                    <span class="card-spec-v">Starship HLS / Blue Moon</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Destination</span>
+                    <span class="card-spec-v">South Pole (Shackleton)</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Orbital Hub</span>
+                    <span class="card-spec-v">Lunar Gateway (NRHO)</span>
+                  </div>
+                </div>
+                <button class="card-action-btn" onclick="queryLunaTopic('Tell me about Artemis program')">
+                  <span>Query L.U.N.A Telemetry</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Apollo 11 -->
+          <div class="mission-card-3d-wrapper">
+            <div class="mission-card-3d" data-card-id="apollo11">
+              <div class="card-glare"></div>
+              <div class="mission-card-img-wrap">
+                <div style="width:100%; height:100%; background: radial-gradient(circle at 60% 40%, #1e293b, #05070a); display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size: 4.5rem;">🌕</span>
+                </div>
+                <div class="card-img-gradient-overlay"></div>
+                <div class="card-status-badge" style="border-color: var(--gold); color: var(--gold)">HISTORIC MILESTONE</div>
+              </div>
+              <div class="card-content">
+                <div class="card-header-meta">
+                  <span class="card-meta-agency">NASA</span>
+                  <span class="card-meta-date">JULY 1969</span>
+                </div>
+                <h3 class="card-title">Apollo 11</h3>
+                <p class="card-desc">
+                  The mission that fulfilled President Kennedy's national goal. Powered by the 363-foot Saturn V rocket, landing astronauts Neil Armstrong and Buzz Aldrin safely on lunar soil.
+                </p>
+                <div class="card-specs-table">
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Launch Mass</span>
+                    <span class="card-spec-v">2,970,000 kg</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Lunar Module</span>
+                    <span class="card-spec-v">LM-5 "Eagle"</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Touchdown Site</span>
+                    <span class="card-spec-v">Mare Tranquillitatis</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Sample Mass</span>
+                    <span class="card-spec-v">21.55 kg (47.5 lb)</span>
+                  </div>
+                </div>
+                <button class="card-action-btn" onclick="queryLunaTopic('Tell me about Apollo 11')">
+                  <span>Query L.U.N.A Telemetry</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Chandrayaan-3 -->
+          <div class="mission-card-3d-wrapper">
+            <div class="mission-card-3d" data-card-id="chandrayaan3">
+              <div class="card-glare"></div>
+              <div class="mission-card-img-wrap">
+                <div style="width:100%; height:100%; background: radial-gradient(circle at 40% 40%, #1e1b4b, #05070a); display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size: 4.5rem;">🇮🇳</span>
+                </div>
+                <div class="card-img-gradient-overlay"></div>
+                <div class="card-status-badge">POLAR PIONEER</div>
+              </div>
+              <div class="card-content">
+                <div class="card-header-meta">
+                  <span class="card-meta-agency">ISRO</span>
+                  <span class="card-meta-date">AUGUST 2023</span>
+                </div>
+                <h3 class="card-title">Chandrayaan-3</h3>
+                <p class="card-desc">
+                  A masterclass in precision aerospace engineering. Vikram lander executed an autonomous rough and fine braking sequence to touch down at high southern latitudes (69.37°S).
+                </p>
+                <div class="card-specs-table">
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Launch Vehicle</span>
+                    <span class="card-spec-v">LVM3-M4</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Rover</span>
+                    <span class="card-spec-v">Pragyan (26 kg)</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Key Discovery</span>
+                    <span class="card-spec-v">Direct Surface Sulfur</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Touchdown Site</span>
+                    <span class="card-spec-v">Shiv Shakti Point</span>
+                  </div>
+                </div>
+                <button class="card-action-btn" onclick="queryLunaTopic('Tell me about Chandrayaan-3')">
+                  <span>Query L.U.N.A Telemetry</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Chang'e 5 Sample Return -->
+          <div class="mission-card-3d-wrapper">
+            <div class="mission-card-3d" data-card-id="change5">
+              <div class="card-glare"></div>
+              <div class="mission-card-img-wrap">
+                <div style="width:100%; height:100%; background: radial-gradient(circle at 70% 30%, #31103f, #05070a); display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size: 4.5rem;">🇨🇳</span>
+                </div>
+                <div class="card-img-gradient-overlay"></div>
+                <div class="card-status-badge">SAMPLE RETURN</div>
+              </div>
+              <div class="card-content">
+                <div class="card-header-meta">
+                  <span class="card-meta-agency">CNSA</span>
+                  <span class="card-meta-date">DECEMBER 2020</span>
+                </div>
+                <h3 class="card-title">Chang'e 5</h3>
+                <p class="card-desc">
+                  First extraterrestrial sample retrieval in 44 years. Drilled and scooped volcanic material from Oceanus Procellarum, launching an ascender to rendezvous in lunar orbit before Earth re-entry.
+                </p>
+                <div class="card-specs-table">
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Sample Weight</span>
+                    <span class="card-spec-v">1,731 grams</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Basalt Age</span>
+                    <span class="card-spec-v">~2.0 Billion Yrs</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Landing Zone</span>
+                    <span class="card-spec-v">Mons Rümker</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">New Mineral</span>
+                    <span class="card-spec-v">Changesite-(Y)</span>
+                  </div>
+                </div>
+                <button class="card-action-btn" onclick="queryLunaTopic('Tell me about Chang\'e 5')">
+                  <span>Query L.U.N.A Telemetry</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Lunar Reconnaissance Orbiter (LRO) -->
+          <div class="mission-card-3d-wrapper">
+            <div class="mission-card-3d" data-card-id="lro">
+              <div class="card-glare"></div>
+              <div class="mission-card-img-wrap">
+                <div style="width:100%; height:100%; background: radial-gradient(circle at 30% 60%, #064e3b, #05070a); display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size: 4.5rem;">🛰️</span>
+                </div>
+                <div class="card-img-gradient-overlay"></div>
+                <div class="card-status-badge">CONTINUOUS TELEMETRY</div>
+              </div>
+              <div class="card-content">
+                <div class="card-header-meta">
+                  <span class="card-meta-agency">NASA / GSFC</span>
+                  <span class="card-meta-date">2009–PRESENT</span>
+                </div>
+                <h3 class="card-title">Lunar Reconnaissance Orbiter</h3>
+                <p class="card-desc">
+                  The gold-standard orbital surveyor mapping lunar topography down to sub-meter resolution. 
+                  Revealed cold-trap ice pockets, new meteorite impact craters, and historic landing hardware.
+                </p>
+                <div class="card-specs-table">
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">LROC Camera</span>
+                    <span class="card-spec-v">0.5 m/pixel resolution</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">LOLA Altimeter</span>
+                    <span class="card-spec-v">4+ Billion Laser pulses</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Orbit Altitude</span>
+                    <span class="card-spec-v">50 km Polar Orbit</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Data Archive</span>
+                    <span class="card-spec-v">1.4+ Petabytes</span>
+                  </div>
+                </div>
+                <button class="card-action-btn" onclick="queryLunaTopic('What is Lunar Reconnaissance Orbiter')">
+                  <span>Query L.U.N.A Telemetry</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Lunar Gateway Station -->
+          <div class="mission-card-3d-wrapper">
+            <div class="mission-card-3d" data-card-id="gateway">
+              <div class="card-glare"></div>
+              <div class="mission-card-img-wrap">
+                <div style="width:100%; height:100%; background: radial-gradient(circle at 50% 50%, #172554, #05070a); display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size: 4.5rem;">🛸</span>
+                </div>
+                <div class="card-img-gradient-overlay"></div>
+                <div class="card-status-badge" style="border-color: var(--lilac); color: var(--lilac)">FUTURE PLATFORM</div>
+              </div>
+              <div class="card-content">
+                <div class="card-header-meta">
+                  <span class="card-meta-agency">NASA / ESA / JAXA / CSA</span>
+                  <span class="card-meta-date">2027+ HORIZON</span>
+                </div>
+                <h3 class="card-title">Lunar Gateway Station</h3>
+                <p class="card-desc">
+                  An international space station in high-eccentricity Near-Rectilinear Halo Orbit (NRHO). 
+                  Functions as a deep-space staging post for lunar landings, deep space science, and future Mars transit.
+                </p>
+                <div class="card-specs-table">
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Orbit Profile</span>
+                    <span class="card-spec-v">7-Day Polar NRHO</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Core Modules</span>
+                    <span class="card-spec-v">PPE & HALO</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Propulsion</span>
+                    <span class="card-spec-v">Solar Electric (SEP)</span>
+                  </div>
+                  <div class="card-spec-row">
+                    <span class="card-spec-k">Robotic Arm</span>
+                    <span class="card-spec-v">Canadarm3</span>
+                  </div>
+                </div>
+                <button class="card-action-btn" onclick="queryLunaTopic('What is Lunar Gateway station')">
+                  <span>Query L.U.N.A Telemetry</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         GAMIFIED QUIZ MODULE (LUNAR ACADEMY)
+         ========================================================================= -->
+    <section class="quiz-section" id="quiz">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">ASTRONAUT CERTIFICATION EXAM</span>
+          <h2 class="section-title">Lunar Academy <span>Evaluation</span></h2>
+          <p class="section-desc">
+            Test your lunar astrophysics and historical mission acumen. Score 6/6 to trigger the Starburst Celebration and unlock your Flight Commander Badge!
+          </p>
+        </div>
+
+        <div class="quiz-terminal">
+          
+          <!-- Terminal HUD Header -->
+          <div class="quiz-hud-bar">
+            <div class="quiz-hud-title">
+              <span style="color: var(--teal)">●</span>
+              <span>TACTICAL EVALUATION ENGINE</span>
+            </div>
+            <div class="quiz-progress-counter" id="quiz-counter">
+              Question <strong id="quiz-curr-idx">1</strong> of <strong id="quiz-total-idx">6</strong>
+            </div>
+          </div>
+
+          <div class="quiz-progress-track">
+            <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+          </div>
+
+          <!-- Active Question Body -->
+          <div class="quiz-body" id="quiz-active-body">
+            
+            <div class="quiz-question-wrap">
+              <div class="quiz-q-category" id="quiz-category">ASTRONOMY & GRAVITY</div>
+              <h3 class="quiz-q-text" id="quiz-question-text">
+                What is the acceleration due to gravity on the Moon's surface compared to Earth's?
+              </h3>
+            </div>
+
+            <div class="quiz-options-grid" id="quiz-options-container">
+              <!-- Rendered via main.js -->
+            </div>
+
+            <!-- Feedback Alert -->
+            <div class="quiz-feedback-box" id="quiz-feedback-box">
+              <div class="quiz-feedback-header" id="quiz-feedback-header">
+                <span id="quiz-feedback-icon">✓</span>
+                <span id="quiz-feedback-title">Correct Telemetry Confirmed</span>
+              </div>
+              <p class="quiz-feedback-text" id="quiz-feedback-text">
+                The lunar surface gravity is 1.62 m/s², approximately 16.6% (one-sixth) of Earth's 9.81 m/s².
+              </p>
+            </div>
+
+            <div class="quiz-next-row" id="quiz-next-row" style="display: none;">
+              <button class="btn-primary" id="quiz-next-btn">
+                <span>Next Telemetry Node</span>
+                <span>→</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Quiz Completion Results Screen -->
+          <div class="quiz-results-screen" id="quiz-results-screen">
+            <div class="results-badge-icon" id="results-badge-icon">🎖️</div>
+            <div class="results-score-big" id="results-score-big">6 / 6</div>
+            <h3 class="results-title" id="results-title">Lunar Flight Commander Rank Awarded!</h3>
+            <p class="results-message" id="results-message">
+              Flawless precision! You have mastered orbital mechanics, historical landings, and polar exploration. 
+              The Starburst telemetry flare has been broadcast across Mission Control!
+            </p>
+            <button class="btn-primary" id="quiz-restart-btn">
+              <span>Recalibrate & Restart</span>
+              <span>↺</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         FOOTER TERMINAL METRICS
+         ========================================================================= -->
+    <footer class="footer-terminal">
+      <div class="container">
+        <div class="footer-grid">
+          
+          <div class="footer-brand">
+            <h4>LUNAR EXPLORER // EXHIBIT STS-99</h4>
+            <p>
+              A museum-grade interactive Mission Control terminal built with 100% pure HTML, CSS, and Vanilla JavaScript. 
+              Zero frameworks, zero external dependencies, 100% offline-first responsive aerospace engineering.
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h5>Command Telemetry</h5>
+            <ul>
+              <li><a href="#hero">Orbital Mechanics</a></li>
+              <li><a href="#stats">Physical Constants</a></li>
+              <li><a href="#timeline">Mission Chronology</a></li>
+              <li><a href="#archive">3D Mission Archive</a></li>
+              <li><a href="#quiz">Academy Quiz</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h5>Knowledge Banks</h5>
+            <ul>
+              <li><a href="javascript:void(0)" onclick="queryLunaTopic('Apollo missions')">Apollo Program Data</a></li>
+              <li><a href="javascript:void(0)" onclick="queryLunaTopic('Chandrayaan-3')">ISRO South Pole Data</a></li>
+              <li><a href="javascript:void(0)" onclick="queryLunaTopic('Chang\'e missions')">CNSA Far Side Samples</a></li>
+              <li><a href="javascript:void(0)" onclick="queryLunaTopic('Lunar water ice')">Polar Water Reserves</a></li>
+              <li><a href="javascript:void(0)" onclick="queryLunaTopic('Artemis program')">Artemis Base Camp</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="footer-bottom-bar">
+          <span>COSMIC TELEMETRY PROTOCOL v4.8 // MISSION CONTROL SYS</span>
+          <span>HUMANITY'S DEEP SPACE EXHIBITION © 2026</span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- =========================================================================
+       THE L.U.N.A VOICE & TEXT ASSISTANT (FLOATING HUD & TERMINAL)
+       ========================================================================= -->
+  <!-- Floating Pill Trigger -->
+  <aside class="luna-float-pill" id="luna-float-pill" title="Activate L.U.N.A Assistant" tabindex="0" role="button" aria-expanded="false" aria-label="Activate Lunar Universal Navigation Assistant">
+    <span class="luna-pill-icon">🎙️</span>
+    <span class="luna-pill-title">L.U.N.A</span>
+    <span class="luna-pulse-dot"></span>
+  </aside>
+
+  <!-- Glassmorphic Terminal Drawer -->
+  <div class="luna-terminal-drawer" id="luna-terminal-drawer">
+    
+    <!-- Terminal Header -->
+    <div class="luna-terminal-header">
+      <div class="luna-title-block">
+        <div class="luna-head-avatar">▲</div>
+        <div class="luna-head-text">
+          <span class="luna-head-title">L.U.N.A TERMINAL</span>
+          <span class="luna-head-sub">Lunar Universal Navigation Assistant</span>
+        </div>
+      </div>
+      <div class="luna-head-actions">
+        <button class="luna-btn-icon" id="luna-tts-toggle" title="Toggle Voice Audio Speech" aria-label="Toggle Voice Audio Speech">🔊</button>
+        <button class="luna-btn-icon" id="luna-close-btn" title="Close Terminal" aria-label="Close Terminal">✕</button>
+      </div>
+    </div>
+
+    <!-- Holographic Waveform Bar -->
+    <div class="luna-waveform-bar" id="luna-waveform-bar">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+
+    <!-- Message History Stream -->
+    <div class="luna-messages-wrap" id="luna-messages-wrap">
+      <div class="luna-msg ai">
+        <strong>L.U.N.A:</strong> Telemetry online, Commander. Ask me anything about Apollo, Artemis, Chandrayaan-3, lunar water ice, craters, or orbital mechanics.
+      </div>
+    </div>
+
+    <!-- Suggestion Question Chips -->
+    <div class="luna-chips-row">
+      <button class="luna-chip" onclick="queryLunaTopic('Apollo 11')">Apollo 11</button>
+      <button class="luna-chip" onclick="queryLunaTopic('Is there water on the Moon?')">Water on Moon?</button>
+      <button class="luna-chip" onclick="queryLunaTopic('Chandrayaan-3')">Chandrayaan-3</button>
+      <button class="luna-chip" onclick="queryLunaTopic('Artemis')">Artemis Base</button>
+      <button class="luna-chip" onclick="queryLunaTopic('Why does the Moon have craters?')">Why craters?</button>
+      <button class="luna-chip" onclick="queryLunaTopic('What is Moon gravity?')">Lunar Gravity</button>
+    </div>
+
+    <!-- Input Bar -->
+    <form class="luna-input-bar" id="luna-input-form" onsubmit="handleLunaFormSubmit(event)">
+      <button type="button" class="luna-mic-btn" id="luna-mic-btn" title="Click to Speak (Web Speech API)" aria-label="Microphone Speech Recognition">
+        🎙️
+      </button>
+      <input type="text" class="luna-text-input" id="luna-text-input" placeholder="Type or speak a question..." autocomplete="off" aria-label="Type a question for LUNA">
+      <button type="submit" class="luna-send-btn" id="luna-send-btn" title="Send Query" aria-label="Send Query">
+        ➤
+      </button>
+    </form>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="main.js"></script>
+</body>
+</html>
